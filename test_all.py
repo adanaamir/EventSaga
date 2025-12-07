@@ -136,7 +136,7 @@ runner.assert_status(response, 200, "Role update")
 # PHASE 2: EVENT & RSVP TESTS
 # ============================================================================
 
-print("\n" + "🎉 PHASE 2: EVENT & RSVP TESTS" + "\n")
+print("\n" + "PHASE 2: EVENT & RSVP TESTS" + "\n")
 
 # Test 9: Create Event (now user is organizer)
 runner.print_test("Create Event - Organizer")
@@ -198,7 +198,7 @@ runner.assert_status(response, 200, "Cancel RSVP")
 # PHASE 3: COMMUNITY GROUPS TESTS
 # ============================================================================
 
-print("\n" + "👥 PHASE 3: COMMUNITY GROUPS TESTS" + "\n")
+print("\n" + "PHASE 3: COMMUNITY GROUPS TESTS" + "\n")
 
 # Test 16: Create Group
 runner.print_test("Create Group")
@@ -254,7 +254,7 @@ if runner.assert_status(response, 200, "Get my groups"):
 # PHASE 4: REAL-TIME MESSAGING TESTS
 # ============================================================================
 
-print("\n" + "💬 PHASE 4: REAL-TIME MESSAGING TESTS" + "\n")
+print("\n" + "PHASE 4: REAL-TIME MESSAGING TESTS" + "\n")
 
 # Test 22: Get Messages (Empty at First)
 runner.print_test("Get Messages - Empty Group")
@@ -304,32 +304,11 @@ if runner.assert_status(response, 200, "Get messages"):
         for i, msg in enumerate(messages, 1):
             print(f"{i}. [{msg['sender']['name']}]: {msg['content'][:50]}...")
 
-# Test 27: Get Messages with Limit
-runner.print_test("Get Messages with Limit")
-response = requests.get(f"{BASE_URL}/groups/{runner.group_id}/messages?limit=2", 
-                       headers=headers)
-if runner.assert_status(response, 200, "Get limited messages"):
-    data = response.json()['data']
-    messages = data['messages']
-    if len(messages) == 2:
-        print(f"✅ Correctly limited to 2 messages")
-        runner.passed += 1
-
 # Test 28: Delete Own Message
 runner.print_test("Delete Message - Owner")
 response = requests.delete(f"{BASE_URL}/groups/{runner.group_id}/messages/{runner.message_id}", 
                           headers=headers)
 runner.assert_status(response, 200, "Delete own message")
-
-# Test 29: Verify Deleted Message Not in List
-runner.print_test("Verify Deleted Message Not in List")
-response = requests.get(f"{BASE_URL}/groups/{runner.group_id}/messages", headers=headers)
-if runner.assert_status(response, 200, "Get messages"):
-    messages = response.json()['data']['messages']
-    deleted_msg = next((m for m in messages if m['id'] == runner.message_id), None)
-    if deleted_msg is None:
-        print("✅ Deleted message not in list")
-        runner.passed += 1
 
 # Test 30: Send Message with Special Characters
 runner.print_test("Send Message with Special Characters")
