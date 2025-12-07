@@ -28,11 +28,15 @@ def create_app(config_class=Config):
     from app.routes.profile import profile_bp
     from app.routes.events import events_bp
     from app.routes.rsvps import rsvps_bp
+    from app.routes.groups import groups_bp
+    from app.routes.chat import messages_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(profile_bp, url_prefix='/api/profile')
     app.register_blueprint(events_bp, url_prefix='/api/events')
     app.register_blueprint(rsvps_bp, url_prefix='/api/rsvps')
+    app.register_blueprint(groups_bp, url_prefix='/api/groups')
+    app.register_blueprint(messages_bp, url_prefix='/api/groups')
     
     # Health check route
     @app.route('/api/health')

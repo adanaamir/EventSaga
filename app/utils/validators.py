@@ -217,3 +217,27 @@ def validate_event_data(data: Dict[str, Any]) -> tuple[bool, Dict[str, str]]:
             errors['capacity'] = "Capacity must be a valid number"
     
     return len(errors) == 0, errors
+
+def validate_group_data(data: Dict[str, Any]) -> tuple[bool, Dict[str, str]]:
+    """
+    Validate group data
+    """
+    errors = {}
+    
+    # Validate name
+    if 'name' in data and data['name']:
+        name = data['name'].strip()
+        if len(name) < 3:
+            errors['name'] = "Name must be at least 3 characters long"
+        elif len(name) > 100:
+            errors['name'] = "Name must not exceed 100 characters"
+    
+    # Validate description
+    if 'description' in data and data['description']:
+        description = data['description'].strip()
+        if len(description) < 10:
+            errors['description'] = "Description must be at least 10 characters long"
+        elif len(description) > 2000:
+            errors['description'] = "Description must not exceed 2000 characters"
+    
+    return len(errors) == 0, errors
